@@ -11,21 +11,9 @@ if (!anonKey) {
   throw new Error('VITE_INSFORGE_ANON_KEY is not defined');
 }
 
-// Get the correct redirect URI for OAuth
-// For GitHub Pages, we need to include the base path
-const getRedirectUri = () => {
-  if (typeof window !== 'undefined') {
-    // Use the current origin and pathname to ensure correct redirect
-    return window.location.origin + window.location.pathname.replace(/\/$/, '') || window.location.origin + '/fitness-logbook';
-  }
-  // Fallback for SSR/build time
-  return 'https://aidandaniel.github.io/fitness-logbook';
-};
-
 export const insforge = createClient({
   baseUrl,
   anonKey,
-  redirectTo: getRedirectUri(),
 });
 
 export type Database = {
