@@ -4,10 +4,11 @@
 
 **Base URL:** `https://vv92gt6j.us-east.insforge.app`
 
-**Fresh Anon Key:** 
-```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OC0xMjM0LTU2NzgtOTBhYi1jZGVmMTIzNDU2NzgiLCJlbWFpbCI6ImFub25AaW5zZm9yZ2UuY29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwNDMxODN9.b9QRIwEEmS7GVC9t7hssbtnou8sIHjokR1n--lkuQmk
-```
+**Anon Key:** Get this from your InsForge dashboard at https://insforge.dev
+- Log into your InsForge dashboard
+- Go to your project settings
+- Find the "Anon Key" or "Anonymous Key" 
+- Copy the complete key (it's a JWT token)
 
 ## Step 1: Update GitHub Secrets
 
@@ -21,14 +22,17 @@ Go to: https://github.com/aidandaniel/fitness-logbook/settings/secrets/actions
 5. Click "Update secret"
 
 ### Update Secret 2: VITE_INSFORGE_ANON_KEY
-1. Click on `VITE_INSFORGE_ANON_KEY` (or create it if it doesn't exist)
-2. Click "Update" (or "New repository secret")
-3. Set value to:
-```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OC0xMjM0LTU2NzgtOTBhYi1jZGVmMTIzNDU2NzgiLCJlbWFpbCI6ImFub25AaW5zZm9yZ2UuY29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwNDMxODN9.b9QRIwEEmS7GVC9t7hssbtnou8sIHjokR1n--lkuQmk
-```
-4. **Important:** Copy the ENTIRE token, no spaces, no quotes
-5. Click "Update secret" (or "Add secret")
+1. **First, get your anon key from InsForge:**
+   - Go to https://insforge.dev and log in
+   - Navigate to your project dashboard
+   - Find "Anon Key" or "Anonymous Key" in settings
+   - Copy the complete JWT token
+
+2. Click on `VITE_INSFORGE_ANON_KEY` (or create it if it doesn't exist)
+3. Click "Update" (or "New repository secret")
+4. Paste your anon key from InsForge dashboard
+5. **Important:** Copy the ENTIRE token, no spaces, no quotes
+6. Click "Update secret" (or "Add secret")
 
 ## Step 2: Update Local .env File
 
@@ -36,8 +40,10 @@ Also update your local `.env` file to match:
 
 ```env
 VITE_INSFORGE_BASE_URL=https://vv92gt6j.us-east.insforge.app
-VITE_INSFORGE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3OC0xMjM0LTU2NzgtOTBhYi1jZGVmMTIzNDU2NzgiLCJlbWFpbCI6ImFub25AaW5zZm9yZ2UuY29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwNDMxODN9.b9QRIwEEmS7GVC9t7hssbtnou8sIHjokR1n--lkuQmk
+VITE_INSFORGE_ANON_KEY=your-anon-key-from-insforge-dashboard
 ```
+
+**Note:** Replace `your-anon-key-from-insforge-dashboard` with the actual anon key from your InsForge dashboard at https://insforge.dev
 
 ## Step 3: Test Locally
 
