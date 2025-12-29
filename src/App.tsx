@@ -12,24 +12,6 @@ import { Progress } from './pages/Progress';
 import { Scheduler } from './pages/Scheduler';
 import { Settings } from './pages/Settings';
 
-// Handle OAuth redirects that might land on the wrong path
-function OAuthRedirectHandler() {
-  const location = useLocation();
-  
-  useEffect(() => {
-    // If we're on the root path with OAuth params, redirect to the correct base path
-    if (location.pathname === '/' && (location.search.includes('access_token') || location.search.includes('code'))) {
-      const basePath = '/fitness-logbook';
-      const newPath = basePath + location.pathname + location.search;
-      window.history.replaceState({}, '', newPath);
-      // Reload to trigger the auth flow
-      window.location.reload();
-    }
-  }, [location]);
-  
-  return null;
-}
-
 function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex flex-col items-center justify-center p-6">
@@ -67,8 +49,7 @@ function LandingPage() {
 
 function App() {
   return (
-    <BrowserRouter basename="/fitness-logbook">
-      <OAuthRedirectHandler />
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
