@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation, useEffect } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@insforge/react';
 import { AuthGuard } from './components/auth/AuthGuard';
 import { DesktopLayout } from './components/layout/DesktopLayout';
