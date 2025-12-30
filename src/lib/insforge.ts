@@ -14,6 +14,8 @@ if (!anonKey) {
 export const insforge = createClient({
   baseUrl,
   anonKey,
+  // Ensure client uses localStorage for session (same as InsforgeProvider)
+  storage: typeof window !== 'undefined' ? window.localStorage : undefined,
 });
 
 export type Database = {
