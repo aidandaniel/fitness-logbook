@@ -1,19 +1,13 @@
 import { createClient } from '@insforge/sdk';
 
 const baseUrl = import.meta.env.VITE_INSFORGE_BASE_URL;
-const anonKey = import.meta.env.VITE_INSFORGE_ANON_KEY;
 
 if (!baseUrl) {
   throw new Error('VITE_INSFORGE_BASE_URL is not defined');
 }
 
-if (!anonKey) {
-  throw new Error('VITE_INSFORGE_ANON_KEY is not defined');
-}
-
 export const insforge = createClient({
   baseUrl,
-  anonKey,
 });
 
 export type Database = {
