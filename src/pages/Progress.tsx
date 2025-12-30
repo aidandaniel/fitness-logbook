@@ -68,7 +68,8 @@ export function Progress() {
       }
     } catch (error) {
       console.error('Error uploading photo:', error);
-      alert('Failed to upload photo');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to upload photo';
+      alert(`Failed to upload photo: ${errorMessage}`);
     } finally {
       setUploading(false);
     }

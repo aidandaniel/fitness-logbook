@@ -60,7 +60,10 @@ export function usePhotos(userId: string | undefined) {
       .from('progress-photos')
       .uploadAuto(file);
 
-    if (uploadError) throw uploadError;
+    if (uploadError) {
+      console.error('Storage upload error:', uploadError);
+      throw new Error(`Storage upload failed: ${uploadError.message || 'Unknown error'}`);
+    }
 
     // Save to database
     const { data, error } = await insforge.database
