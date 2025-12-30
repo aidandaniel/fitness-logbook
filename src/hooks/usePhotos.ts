@@ -65,13 +65,13 @@ export function usePhotos(userId: string | undefined) {
     // Save to database
     const { data, error } = await insforge.database
       .from('progress_photos')
-      .insert([{
+      .insert({
         user_id: userId,
         photo_url: uploadData!.url,
         photo_key: uploadData!.key,
         week_date: weekDate.toISOString().split('T')[0],
         notes: notes || null,
-      }])
+      })
       .select()
       .single();
 

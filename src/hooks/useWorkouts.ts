@@ -62,7 +62,7 @@ export function useWorkouts(userId: string | undefined) {
   async function createWorkout(workout: WorkoutTemplateInsert) {
     const { data, error } = await insforge.database
       .from('workout_templates')
-      .insert([workout])
+      .insert(workout)
       .select()
       .single();
 
@@ -94,7 +94,7 @@ export function useWorkouts(userId: string | undefined) {
   async function addExercise(exercise: ExerciseInsert) {
     const { data, error } = await insforge.database
       .from('exercises')
-      .insert([exercise])
+      .insert(exercise)
       .select()
       .single();
 

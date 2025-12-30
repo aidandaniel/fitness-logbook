@@ -31,7 +31,7 @@ export function useSettings(userId: string | undefined) {
         if (!data) {
           const { data: newSettings, error: insertError } = await insforge.database
             .from('user_settings')
-            .insert([{ user_id: userId, weight_unit: 'kg' }])
+            .insert({ user_id: userId, weight_unit: 'kg' })
             .select()
             .single();
 

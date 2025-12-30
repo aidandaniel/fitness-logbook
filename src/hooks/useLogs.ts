@@ -72,7 +72,7 @@ export function useLogs(userId: string | undefined, startDate?: Date, endDate?: 
   async function createLog(log: WorkoutLogInsert) {
     const { data, error } = await insforge.database
       .from('workout_logs')
-      .insert([log])
+      .insert(log)
       .select()
       .single();
 
@@ -104,7 +104,7 @@ export function useLogs(userId: string | undefined, startDate?: Date, endDate?: 
   async function addExerciseLog(exerciseLog: ExerciseLogInsert) {
     const { data, error } = await insforge.database
       .from('exercise_logs')
-      .insert([exerciseLog])
+      .insert(exerciseLog)
       .select()
       .single();
 

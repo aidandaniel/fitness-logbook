@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@insforge/react';
 import { AuthGuard } from './components/auth/AuthGuard';
 import { DesktopLayout } from './components/layout/DesktopLayout';
@@ -10,6 +11,24 @@ import { History } from './pages/History';
 import { Progress } from './pages/Progress';
 import { Scheduler } from './pages/Scheduler';
 import { Settings } from './pages/Settings';
+
+// Handle OAuth redirects that might land on the wrong path
+function OAuthRedirectHandler() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // If we're on the root path with OAuth params, redirect to the correct base path
+    if (location.pathname === '/' && (location.search.includes('access_token') || location.search.includes('code'))) {
+      const basePath = '/fitness-logbook';
+      const newPath = basePath + location.pathname + location.search;
+      window.history.replaceState({}, '', newPath);
+      // Reload to trigger the auth flow
+      window.location.reload();
+    }
+  }, [location]);
+  
+  return null;
+}
 
 function LandingPage() {
   return (
@@ -48,7 +67,8 @@ function LandingPage() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/fitness-logbook">
+      <OAuthRedirectHandler />
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
