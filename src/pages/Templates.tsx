@@ -16,23 +16,46 @@ export function Templates() {
   const [showModal, setShowModal] = useState(false);
   const [workoutName, setWorkoutName] = useState('');
   const [workoutDescription, setWorkoutDescription] = useState('');
+  const [creating, setCreating] = useState(false);
 
   const handleCreate = async () => {
-    if (!user || !workoutName.trim()) return;
+    console.log('🔵 handleCreate called', { user: user?.id, workoutName, hasUser: !!user });
+    
+    if (!user || !workoutName.trim()) {
+      console.warn('⚠️ Validation failed:', { hasUser: !!user, workoutName });
+      return;
+    }
 
+    setCreating(true);
+    console.log('🟡 Starting workout creation...');
+    
     try {
-      const newWorkout = await createWorkout({
+      const workoutData = {
         user_id: user.id,
         name: workoutName.trim(),
         description: workoutDescription.trim() || null,
-      });
+      };
+      console.log('📤 Calling createWorkout with:', workoutData);
+      
+      const newWorkout = await createWorkout(workoutData);
+      console.log('✅ Workout created successfully:', newWorkout);
 
       setShowModal(false);
       setWorkoutName('');
       setWorkoutDescription('');
       navigate(`/templates/${newWorkout.id}`);
     } catch (error) {
-      console.error('Error creating workout:', error);
+      console.error('❌ Error creating workout:', error);
+      console.error('Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        error: error
+      });
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create workout';
+      alert(`Error: ${errorMessage}`);
+    } finally {
+      setCreating(false);
+      console.log('🟢 handleCreate finished');
     }
   };
 
@@ -158,8 +181,8 @@ export function Templates() {
           <Button variant="ghost" onClick={() => setShowModal(false)}>
             Cancel
           </Button>
-          <Button onClick={handleCreate} disabled={!workoutName.trim()}>
-            Create
+          <Button onClick={handleCreate} disabled={!workoutName.trim() || creating}>
+            {creating ? 'Creating...' : 'Create'}
           </Button>
         </ModalActions>
       </Modal>

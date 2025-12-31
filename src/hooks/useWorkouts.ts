@@ -60,14 +60,41 @@ export function useWorkouts(userId: string | undefined) {
   }, [userId]);
 
   async function createWorkout(workout: WorkoutTemplateInsert) {
-    const { data, error } = await insforge.database
-      .from('workout_templates')
-      .insert(workout)
-      .select()
-      .single();
+    console.log('🔵 createWorkout called with:', workout);
+    console.log('🔵 insforge client:', { 
+      hasDatabase: !!insforge.database,
+      baseUrl: insforge.baseUrl || 'unknown'
+    });
+    
+    try {
+      console.log('📡 Making database insert request...');
+      const { data, error } = await insforge.database
+        .from('workout_templates')
+        .insert(workout)
+        .select()
+        .single();
 
-    if (error) throw error;
-    return data;
+      console.log('📥 Database response:', { data, error });
+
+      if (error) {
+        console.error('❌ Database insert error:', error);
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        });
+        throw error;
+      }
+      
+      console.log('✅ Workout created:', data);
+      return data;
+    } catch (err) {
+      console.error('❌ createWorkout error:', err);
+      console.error('Error type:', err?.constructor?.name);
+      console.error('Error stack:', err instanceof Error ? err.stack : 'No stack');
+      throw err;
+    }
   }
 
   async function updateWorkout(id: string, updates: Partial<WorkoutTemplateInsert>) {
