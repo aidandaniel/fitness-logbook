@@ -63,7 +63,7 @@ export function useWorkouts(userId: string | undefined) {
     console.log('🔵 createWorkout called with:', workout);
     console.log('🔵 insforge client:', { 
       hasDatabase: !!insforge.database,
-      baseUrl: insforge.baseUrl || 'unknown'
+      hasStorage: !!insforge.storage
     });
     
     try {
