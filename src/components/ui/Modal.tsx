@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, Children, isValidElement, cloneElement } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -21,6 +21,18 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
 
   if (!isOpen) return null;
 
+  // Separate ModalActions from other children
+  let contentChildren: React.ReactNode[] = [];
+  let actionsChildren: React.ReactNode | null = null;
+
+  Children.forEach(children, (child) => {
+    if (isValidElement(child) && child.type === ModalActions) {
+      actionsChildren = child;
+    } else {
+      contentChildren.push(child);
+    }
+  });
+
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
       {/* Backdrop */}
@@ -30,9 +42,9 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
       />
 
       {/* Modal content */}
-      <div className="relative bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md sm:max-h-[90vh] overflow-hidden shadow-xl animate-slide-up">
+      <div className="relative bg-white dark:bg-gray-800 rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md max-h-[85vh] sm:max-h-[90vh] flex flex-col shadow-xl animate-slide-up">
         {title && (
-          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
             <button
               onClick={onClose}
@@ -45,9 +57,10 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
             </button>
           </div>
         )}
-        <div className="max-h-[70vh] overflow-y-auto">
-          {children}
+        <div className="flex-1 overflow-y-auto min-h-0">
+          {contentChildren}
         </div>
+        {actionsChildren}
       </div>
     </div>
   );
@@ -60,7 +73,7 @@ interface ModalActionsProps {
 
 export function ModalActions({ children, className = '' }: ModalActionsProps) {
   return (
-    <div className={`flex gap-3 px-5 py-4 border-t border-gray-100 dark:border-gray-700 ${className}`}>
+    <div className={`flex gap-3 px-5 py-4 pb-safe border-t border-gray-100 dark:border-gray-700 flex-shrink-0 ${className}`}>
       {children}
     </div>
   );
