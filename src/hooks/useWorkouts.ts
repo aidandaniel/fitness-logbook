@@ -116,6 +116,9 @@ export function useWorkouts(userId: string | undefined) {
       .eq('id', id);
 
     if (error) throw error;
+    
+    // Update local state to remove deleted workout
+    setWorkouts(prev => prev.filter(w => w.id !== id));
   }
 
   async function addExercise(exercise: ExerciseInsert) {

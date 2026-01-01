@@ -1,4 +1,5 @@
-import { useEffect, Children, isValidElement, cloneElement } from 'react';
+import { useEffect, Children, isValidElement } from 'react';
+import { useModal } from '../../contexts/ModalContext';
 
 interface ModalProps {
   isOpen: boolean;
@@ -8,7 +9,11 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, children, title }: ModalProps) {
+  const { setModalOpen } = useModal();
+
   useEffect(() => {
+    setModalOpen(isOpen);
+    
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -16,8 +21,9 @@ export function Modal({ isOpen, onClose, children, title }: ModalProps) {
     }
     return () => {
       document.body.style.overflow = '';
+      setModalOpen(false);
     };
-  }, [isOpen]);
+  }, [isOpen, setModalOpen]);
 
   if (!isOpen) return null;
 

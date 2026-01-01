@@ -66,8 +66,11 @@ export function Templates() {
 
     try {
       await deleteWorkout(id);
+      // Workout is automatically removed from state in the hook
     } catch (error) {
       console.error('Error deleting workout:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete workout';
+      alert(`Error: ${errorMessage}`);
     }
   };
 
