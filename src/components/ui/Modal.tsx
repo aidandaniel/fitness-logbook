@@ -1,5 +1,5 @@
 import { useEffect, Children, isValidElement } from 'react';
-import { useModal } from '../../contexts/ModalContext';
+import { useModalContext } from '../../contexts/ModalContext';
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,21 +9,20 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, children, title }: ModalProps) {
-  const { setModalOpen } = useModal();
+  const { registerModal } = useModalContext();
 
   useEffect(() => {
-    setModalOpen(isOpen);
-    
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      const unregister = registerModal();
+      return () => {
+        document.body.style.overflow = '';
+        unregister();
+      };
     } else {
       document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = '';
-      setModalOpen(false);
-    };
-  }, [isOpen, setModalOpen]);
+  }, [isOpen, registerModal]);
 
   if (!isOpen) return null;
 

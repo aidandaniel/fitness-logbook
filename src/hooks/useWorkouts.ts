@@ -88,6 +88,20 @@ export function useWorkouts(userId: string | undefined) {
       }
       
       console.log('✅ Workout created:', data);
+      
+      // Fetch exercises for the new workout
+      const { data: exercises } = await insforge.database
+        .from('exercises')
+        .select('*')
+        .eq('template_id', data.id)
+        .order('order_index', { ascending: true });
+      
+      // Add to local state
+      setWorkouts(prev => [{
+        ...data,
+        exercises: exercises || [],
+      }, ...prev]);
+      
       return data;
     } catch (err) {
       console.error('❌ createWorkout error:', err);
@@ -117,7 +131,7 @@ export function useWorkouts(userId: string | undefined) {
 
     if (error) throw error;
     
-    // Update local state to remove deleted workout
+    // Remove from local state
     setWorkouts(prev => prev.filter(w => w.id !== id));
   }
 

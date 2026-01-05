@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Dumbbell, TrendingUp, CalendarClock, Camera } from 'lucide-react';
-import { useModal } from '../../contexts/ModalContext';
+import { useModalContext } from '../../contexts/ModalContext';
 
 interface BottomNavProps {
   currentPath: string;
@@ -8,7 +8,7 @@ interface BottomNavProps {
 
 export function BottomNav({ currentPath }: BottomNavProps) {
   const navigate = useNavigate();
-  const { isModalOpen } = useModal();
+  const { isAnyModalOpen } = useModalContext();
 
   const navItems = [
     { path: '/dashboard', icon: Calendar, label: 'Calendar' },
@@ -18,10 +18,12 @@ export function BottomNav({ currentPath }: BottomNavProps) {
     { path: '/scheduler', icon: CalendarClock, label: 'Scheduler' },
   ];
 
+  if (isAnyModalOpen) {
+    return null;
+  }
+
   return (
-    <nav className={`fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 pb-safe pb-4 z-50 md:hidden transition-transform duration-300 ${
-      isModalOpen ? 'translate-y-full' : 'translate-y-0'
-    }`}>
+    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 pb-safe pb-4 z-50 md:hidden transition-transform duration-300">
       <div className="max-w-lg mx-auto flex justify-around items-center">
         {navItems.map((item) => {
           const isActive = currentPath === item.path || currentPath.startsWith(item.path + '/');
