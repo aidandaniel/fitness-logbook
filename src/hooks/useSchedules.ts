@@ -241,16 +241,24 @@ export function useSchedules(userId: string | undefined) {
     return 'bg-blue-500';
   }
 
+  // Normalize date to start of day (midnight) to avoid timezone issues
+  function normalizeDate(date: Date): Date {
+    const normalized = new Date(date);
+    normalized.setHours(0, 0, 0, 0);
+    return normalized;
+  }
+
   // Get the workout type for a specific date based on the active schedule
   function getWorkoutForDate(date: Date): WorkoutDayType | null {
     if (schedules.length === 0) return null;
 
     const activeSchedule = schedules[0]; // Use most recent schedule
-    const startDate = new Date(activeSchedule.start_date);
+    const startDate = normalizeDate(new Date(activeSchedule.start_date));
+    const normalizedDate = normalizeDate(date);
     const pattern = activeSchedule.pattern as WorkoutDayType[];
 
-    // Calculate days difference
-    const daysDiff = Math.floor((date.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    // Calculate days difference using normalized dates
+    const daysDiff = Math.floor((normalizedDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 
     if (daysDiff < 0) return null; // Date is before start date
 
@@ -261,8 +269,9 @@ export function useSchedules(userId: string | undefined) {
   // Get the next 7 days of workouts
   function getUpcomingWorkouts(startDate: Date = new Date()): Array<{ date: Date; type: WorkoutDayType | null }> {
     const workouts = [];
+    const normalizedStart = normalizeDate(startDate);
     for (let i = 0; i < 7; i++) {
-      const date = new Date(startDate);
+      const date = new Date(normalizedStart);
       date.setDate(date.getDate() + i);
       workouts.push({
         date,
