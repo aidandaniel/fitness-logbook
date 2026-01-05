@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, Github, Twitter } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -11,7 +11,7 @@ export function Footer() {
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">F</span>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Fitness Logbook</h3>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">FitnessBook</h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Track your workouts, monitor progress, and achieve your fitness goals with our comprehensive fitness tracking platform.
@@ -23,47 +23,11 @@ export function Footer() {
             <h4 className="font-semibold text-gray-900 dark:text-white">Contact Us</h4>
             <div className="space-y-3">
               <a
-                href="mailto:support@fitnesslogbook.com"
+                href="mailto:fitness_book@yahoo.com"
                 className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                support@fitnesslogbook.com
-              </a>
-              <a
-                href="tel:+1234567890"
-                className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                +1 (234) 567-8900
-              </a>
-              <div className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                <MapPin className="w-4 h-4" />
-                <span>123 Fitness Street, Health City, HC 12345</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">Quick Links</h4>
-            <div className="flex flex-col space-y-2">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Github className="w-4 h-4" />
-                GitHub
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <Twitter className="w-4 h-4" />
-                Twitter
+                fitness_book@yahoo.com
               </a>
             </div>
           </div>
@@ -73,7 +37,7 @@ export function Footer() {
         <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              © {new Date().getFullYear()} Fitness Logbook. All rights reserved.
+              © {new Date().getFullYear()} FitnessBook. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm text-gray-500 dark:text-gray-400">
               <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>

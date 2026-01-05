@@ -39,7 +39,7 @@ function LandingPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
           </svg>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Fitness Logbook</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">FitnessBook</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-8">Track your workouts, monitor progress, and achieve your fitness goals.</p>
 
         <SignedOut>
