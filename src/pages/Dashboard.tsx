@@ -28,9 +28,12 @@ export function Dashboard() {
   const workoutDates = logs.map(log => log.date);
   const activeSchedule = schedules[0];
 
-  const selectedLogs = logs.filter(log =>
-    log.date === formatDateLocal(selectedDate)
-  );
+  // Normalize selectedDate to start of day for accurate comparison
+  const normalizedSelectedDate = new Date(selectedDate);
+  normalizedSelectedDate.setHours(0, 0, 0, 0);
+  const selectedDateString = formatDateLocal(normalizedSelectedDate);
+  
+  const selectedLogs = logs.filter(log => log.date === selectedDateString);
 
   // Calculate stats
   const today = new Date();
@@ -39,7 +42,7 @@ export function Dashboard() {
   const totalWorkoutsThisMonth = logs.filter(log => {
     const logDate = new Date(log.date);
     return logDate.getMonth() === selectedDate.getMonth() &&
-           logDate.getFullYear() === selectedDate.getFullYear();
+      logDate.getFullYear() === selectedDate.getFullYear();
   }).length;
 
   const totalWorkoutsThisWeek = logs.filter(log => {
@@ -82,7 +85,10 @@ export function Dashboard() {
 
   const goToDate = (date: Date) => {
     setCalendarMonth(startOfMonth(date));
-    setSelectedDate(date);
+    // Normalize date to start of day to avoid timezone issues
+    const normalized = new Date(date);
+    normalized.setHours(0, 0, 0, 0);
+    setSelectedDate(normalized);
   };
 
   const getDayWorkoutType = (date: Date): WorkoutDayType | null => {
@@ -311,11 +317,10 @@ export function Dashboard() {
                     return (
                       <div
                         key={index}
-                        className={`p-3 rounded-lg text-center ${
-                          type
+                        className={`p-3 rounded-lg text-center ${type
                             ? 'text-white'
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                        }`}
+                          }`}
                         style={{ backgroundColor: type && colorInfo ? colorInfo.hex : undefined }}
                       >
                         <div className="text-xs font-medium mb-1 opacity-90">{format(date, 'EEE')}</div>
