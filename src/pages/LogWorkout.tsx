@@ -9,6 +9,14 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Plus, Trash2, Save, ArrowLeft } from 'lucide-react';
 
+// Format date to YYYY-MM-DD in local timezone (not UTC)
+function formatDateLocal(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 interface ExerciseSet {
   set_number: number;
   weight: string;
@@ -105,7 +113,7 @@ export function LogWorkout() {
       const workoutLog = await createLog({
         user_id: user.id,
         template_id: template.id,
-        date: new Date().toISOString().split('T')[0],
+        date: formatDateLocal(new Date()),
         notes: notes.trim() || null,
       });
 

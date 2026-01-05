@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react';
 import { insforge } from '../lib/insforge';
 import type { Database } from '../lib/insforge';
 
+// Format date to YYYY-MM-DD in local timezone (not UTC)
+function formatDateLocal(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 type WorkoutLog = Database['public']['Tables']['workout_logs']['Row'];
 type WorkoutLogInsert = Database['public']['Tables']['workout_logs']['Insert'];
 type ExerciseLog = Database['public']['Tables']['exercise_logs']['Row'];
@@ -32,10 +40,10 @@ export function useLogs(userId: string | undefined, startDate?: Date, endDate?: 
           .eq('user_id', userId);
 
         if (startDate) {
-          query = query.gte('date', startDate.toISOString().split('T')[0]);
+          query = query.gte('date', formatDateLocal(startDate));
         }
         if (endDate) {
-          query = query.lte('date', endDate.toISOString().split('T')[0]);
+          query = query.lte('date', formatDateLocal(endDate));
         }
 
         const { data: logsData, error: logsError } = await query.order('date', { ascending: false });

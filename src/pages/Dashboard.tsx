@@ -8,6 +8,14 @@ import { useSchedules, WORKOUT_DAY_LABELS, type WorkoutDayType } from '../hooks/
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isSameMonth, isToday, addMonths, subMonths } from 'date-fns';
 import { Plus, Dumbbell, Trophy, Target, Zap, ChevronLeft, ChevronRight, CalendarClock } from 'lucide-react';
 
+// Format date to YYYY-MM-DD in local timezone (not UTC)
+function formatDateLocal(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 export function Dashboard() {
   const { user } = useUser();
   const navigate = useNavigate();
@@ -15,13 +23,13 @@ export function Dashboard() {
   const [calendarMonth, setCalendarMonth] = useState(startOfMonth(selectedDate));
 
   const { logs, loading } = useLogs(user?.id);
-  const { schedules, getWorkoutForDate, getWorkoutColor } = useSchedules(user?.id);
+  const { schedules, getWorkoutForDate, getWorkoutColor, getUpcomingWorkouts } = useSchedules(user?.id);
 
   const workoutDates = logs.map(log => log.date);
   const activeSchedule = schedules[0];
 
   const selectedLogs = logs.filter(log =>
-    log.date === selectedDate.toISOString().split('T')[0]
+    log.date === formatDateLocal(selectedDate)
   );
 
   // Calculate stats
@@ -81,18 +89,8 @@ export function Dashboard() {
     return getWorkoutForDate(date);
   };
 
-  const upcomingWorkouts = activeSchedule ? (() => {
-    const workouts = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(today);
-      date.setDate(date.getDate() + i);
-      workouts.push({
-        date,
-        type: getWorkoutForDate(date),
-      });
-    }
-    return workouts;
-  })() : [];
+  // Use the hook's function to ensure consistency with Scheduler page
+  const upcomingWorkouts = activeSchedule ? getUpcomingWorkouts(today) : [];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
