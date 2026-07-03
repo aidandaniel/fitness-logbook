@@ -2,4 +2,9 @@
 
 A comprehensive fitness tracking application built with React, TypeScript, and InsForge. Track your workouts, monitor progress, set goals, and achieve your fitness objectives.
 
-This was built in ReadyMojo using claude code for an AI BUILD OFF hackathon with a goal of building shipping and deploying a fullstack web app with an insforge backend in under 3 hours
+This project was built during the ReadyMojo AI BUILD OFF hackathon using Claude code with the goal of shipping and deploying a fullstack web app (InsForge backend) in under 3 hours.
+
+Important note
+--------------
+
+This project was deployed during the hackathon on a temporary/demo hosting subscription. That demo hosting has limitations and may have expired or been disabled after the event — the live deployment may not work. The source code is provided for reference and local development, but the hosted demo should not be relied on as a working production service.
