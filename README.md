@@ -7,4 +7,4 @@ This project was built during the ReadyMojo AI BUILD OFF hackathon using Claude 
 Important note
 --------------
 
-This project was deployed during the hackathon on a temporary/demo hosting subscription. That demo hosting has limitations and may have expired or been disabled after the event — the live deployment may not work. The source code is provided for reference and local development, but the hosted demo should not be relied on as a working production service.
+This project was deployed during the hackathon on a temporary/demo hosting subscription.The live deployment may not work. The source code is provided for reference and local development, but the hosted demo should not be relied on as a working production service.
